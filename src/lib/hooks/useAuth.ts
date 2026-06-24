@@ -22,7 +22,7 @@ export function useAuth() {
     mutationFn: (payload: RegisterPayload) => authApi.register(payload),
     onSuccess: (data) => {
       setSession(data.user, data.token);
-      router.push("/projects");
+      router.push("/login");
     },
   });
 
