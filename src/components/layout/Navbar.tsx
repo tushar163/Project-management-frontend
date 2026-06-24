@@ -17,7 +17,7 @@ export function Navbar() {
   const { user, logout } = useAuth();
 
   return (
-    <header className="h-16 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-6">
+    <header className="h-16 border-b border-slate-200 bg-white/90 flex items-center justify-between px-6 backdrop-blur">
       <div />
       <div className="flex items-center gap-3">
         {user && (

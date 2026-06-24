@@ -1,4 +1,7 @@
 import axios, { AxiosError } from "axios";
+import { getCookie, removeCookie } from "typescript-cookie";
+
+const TOKEN_KEY = "auth_token";
 
 // Single axios instance for the whole app. Every API module imports
 // this rather than calling axios directly, so auth headers and error
@@ -10,12 +13,17 @@ export const apiClient = axios.create({
   },
 });
 
-// Attach the JWT to every outgoing request, read fresh from
-// localStorage each time rather than captured once at module load —
+// Attach the JWT to every outgoing request, read fresh from the
+// cookie each time rather than captured once at module load —
 // otherwise a login after the app has booted would never take effect.
+// Auth routes (login / register) are excluded so we never send a
+// stale or irrelevant token on those calls.
 apiClient.interceptors.request.use((config) => {
-  if (typeof window !== "undefined") {
-    const token = window.localStorage.getItem("auth_token");
+  const url = config.url ?? "";
+  const isAuthRoute = url.startsWith("/v1/auth/") || url.startsWith("/auth/");
+
+  if (!isAuthRoute && typeof window !== "undefined") {
+    const token = getCookie(TOKEN_KEY);
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -30,8 +38,8 @@ apiClient.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
     if (error.response?.status === 401 && typeof window !== "undefined") {
-      window.localStorage.removeItem("auth_token");
-      window.localStorage.removeItem("auth_user");
+      removeCookie(TOKEN_KEY, { path: "/" });
+      removeCookie("auth_user", { path: "/" });
       if (!window.location.pathname.startsWith("/login")) {
         window.location.href = "/login";
       }

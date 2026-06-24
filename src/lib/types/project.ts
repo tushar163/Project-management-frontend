@@ -8,6 +8,9 @@ export interface Project {
   ownerId: string;
   owner?: User;
   tasks?: Task[];
+  _count?: {
+    tasks: number;
+  };
   createdAt: string;
   updatedAt: string;
   // Convenience field some list endpoints return instead of the full
@@ -18,4 +21,29 @@ export interface Project {
 export interface CreateProjectPayload {
   name: string;
   description?: string;
+}
+
+export interface UpdateProjectPayload {
+  name?: string;
+  description?: string | null;
+}
+
+export interface PaginationMeta {
+  page: number;
+  limit: number;
+  total: number;
+  totalPages: number;
+  hasNextPage?: boolean;
+  hasPrevPage?: boolean;
+}
+
+export interface PaginatedProjectsResponse {
+  data: Project[];
+  pagination: PaginationMeta;
+}
+
+export interface ProjectListParams {
+  page?: number;
+  limit?: number;
+  search?: string;
 }

@@ -32,7 +32,8 @@ export function CreateTaskModal({
 }) {
   const overlay = useOverlayState();
   const createTask = useCreateTask();
-  const { data: projects } = useProjects();
+  const { data: projectsResponse } = useProjects({ limit: 100 });
+  const projects = projectsResponse?.data ?? [];
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

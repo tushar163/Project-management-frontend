@@ -36,6 +36,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     const storedToken = getCookie(TOKEN_KEY);
     const storedUser = getCookie(USER_KEY);
@@ -52,6 +53,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
     setIsLoading(false);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const setSession = useCallback((nextUser: User, nextToken: string) => {
     setCookie(TOKEN_KEY, nextToken, COOKIE_OPTIONS);

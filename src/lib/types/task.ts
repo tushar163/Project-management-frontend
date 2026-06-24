@@ -11,6 +11,10 @@ export interface Task {
   priority: Priority;
   aiSummary: string | null;
   projectId: string;
+  project?: {
+    id: string;
+    name: string;
+  };
   createdById: string;
   createdBy?: User;
   assignedToId: string | null;

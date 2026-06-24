@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTasks } from "../../../lib/hooks/useTasks";
+import { useTasks } from "../../../lib/hooks/useTask";
 import { TaskBoard } from "../../../components/tasks/TaskBoard";
 import { TaskSearchBar } from "../../../components/tasks/TaskSearchBar";
 import { CreateTaskModal } from "../../../components/tasks/CreateTaskModal";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Input, InputGroup, CloseButton } from "@heroui/react";
+import { CloseButton, Input } from "@heroui/react";
 import { Search } from "lucide-react";
 
 export function TaskSearchBar({
@@ -23,22 +23,21 @@ export function TaskSearchBar({
   }, [value, onSearch]);
 
   return (
-    <InputGroup className="max-w-sm">
-      <InputGroup.Prefix>
-        <Search size={16} className="text-slate-400" />
-      </InputGroup.Prefix>
-      <InputGroup.Input>
-        <Input
-          placeholder="Search tasks by title or description..."
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-        />
-      </InputGroup.Input>
+    <div className="relative max-w-sm">
+      <Search className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+      <Input
+        className="pl-9 pr-9"
+        placeholder="Search tasks by title or description..."
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+      />
       {value && (
-        <InputGroup.Suffix>
-          <CloseButton aria-label="Clear search" onPress={() => setValue("")} />
-        </InputGroup.Suffix>
+        <CloseButton
+          aria-label="Clear search"
+          className="absolute right-2 top-1/2 -translate-y-1/2"
+          onPress={() => setValue("")}
+        />
       )}
-    </InputGroup>
+    </div>
   );
 }
