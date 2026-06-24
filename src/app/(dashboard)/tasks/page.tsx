@@ -5,10 +5,15 @@ import { useTasks } from "../../../lib/hooks/useTask";
 import { TaskBoard } from "../../../components/tasks/TaskBoard";
 import { TaskSearchBar } from "../../../components/tasks/TaskSearchBar";
 import { CreateTaskModal } from "../../../components/tasks/CreateTaskModal";
+import { ProjectFilterSelect } from "../../../components/tasks/ProjectFilterSelect";
 
 export default function TasksPage() {
   const [search, setSearch] = useState("");
-  const { data: tasks, isLoading } = useTasks({ search });
+  const [projectId, setProjectId] = useState("");
+  const { data: tasks, isLoading } = useTasks({
+    search,
+    projectId: projectId || undefined,
+  });
 
   return (
     <div className="flex flex-col gap-6">
@@ -22,7 +27,10 @@ export default function TasksPage() {
         <CreateTaskModal />
       </div>
 
-      <TaskSearchBar onSearch={setSearch} />
+      <div className="flex items-center flex-wrap gap-3">
+        <TaskSearchBar onSearch={setSearch} />
+        <ProjectFilterSelect value={projectId} onChange={setProjectId} />
+      </div>
 
       <TaskBoard tasks={tasks} isLoading={isLoading} />
     </div>
